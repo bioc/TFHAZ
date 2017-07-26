@@ -215,7 +215,7 @@ The function *high_accumulation_zones* takes in input:
 The result of the *high_accumulation_zones* function is a list containing:  
 
 * n_zones: an integer containing the number of high accumulation zones obtained;
-* n_bases: an integer containing the total number of bases belonging to the dense zones obtained;
+* n_bases: an integer containing the total number of bases belonging to the high accumulation zones obtained;
 * lengths: a vector containing the considered threshold value and min, max, mean, median and standard deviation of the high accumulation zone lengths obtained;
 * distances: a vector containing the considered threshold value and  min, max, mean, median and standard deviation of the distances between adjacent high accumulation zones obtained;
 * TH: a number with the threshold value found;
