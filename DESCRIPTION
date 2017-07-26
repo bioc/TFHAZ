@@ -1,0 +1,15 @@
+Package: TFHAZ
+Type: Package
+Title: Transcription Factor High Accumulation Zones
+Version: 0.99.0
+Author: Alberto Marchesi, Marco Masseroli
+Maintainer: Alberto Marchesi <alberto.march91@gmail.com>
+Description: It finds trascription factor high accumulation DNA zones, i.e., regions along the genome where there is a high presence of different transcription factors. In addition, some functions are provided in order to analyze and compare results obtained with different input parameters.
+License: Artistic-2.0
+Encoding: UTF-8
+Imports: Matrix, GenomicRanges, grDevices, graphics, stats, utils
+biocViews: BiologicalQuestion, Transcription
+LazyData: true
+Depends: R(>= 3.3)
+Suggests: knitr
+VignetteBuilder: knitr
