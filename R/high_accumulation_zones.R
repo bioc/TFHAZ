@@ -3,15 +3,15 @@
 # input:
 #       accumulation: list of four elements containing: a sparse vector with accumulation values (e.g.,obtained with the accumulation function), the accumulation type, a chromosome name, and the half-width of the window used for the accumulation count.
 # output: A list of eight elements:
-#        n_zones: an integer containing the number of dense zones obtained.
-#        n_bases: an integer containing the total number of bases belonging to the dense zones obtained.
-#        lengths: a data frame containing the considered threshold value and min, max, mean, median and standard deviation of the dense zone lengths obtained.
-#        distances: a dataframe containing the considered threshold value and  min, max, mean, median and standard deviation of the distances between adjacent dense zones obtained with each of the threshold values.
+#        n_zones: an integer containing the number of high accumulation zones obtained.
+#        n_bases: an integer containing the total number of bases belonging to the accumulation zones obtained.
+#        lengths: a vector containing the considered threshold value and min, max, mean, median and standard deviation of the accumulation zone lengths obtained.
+#        distances: a vector containing the considered threshold value and  min, max, mean, median and standard deviation of the distances between adjacent accumulation zones obtained.
 #        TH: a number with the threshold value found.
 #        acctype: a string with the accumulation type used.
 #        chr: a string with the chromosome name associated with the accumulation vector used.
 #        w: an integer with half-width of the window used to calculate the accumulation vector.
-# A ".bed" file with the chromosome and genomic coordinates of the dense zones found is created.
+# A ".bed" file with the chromosome and genomic coordinates of the accumulation zones found is created.
 # A ".png" file with the plot of the TFHAZ found along the cromosome is created.
 
 high_accumulation_zones= function(accumulation) {
@@ -72,9 +72,12 @@ high_accumulation_zones= function(accumulation) {
         dist_zone_sd=NA
     }
 
-    # datasets creation
-    lengths=data.frame(TH,n_zones,length_zone_min,length_zone_max,length_zone_mean,length_zone_median,length_zone_sd)
-    distances=data.frame(TH,n_zones,dist_zone_min,dist_zone_max,dist_zone_mean,dist_zone_median,dist_zone_sd)
+    # vectors creation
+    lengths=c(TH,n_zones,length_zone_min,length_zone_max,length_zone_mean,length_zone_median,length_zone_sd)
+    names(lengths)=c("TH","n_zones","length_zone_min","length_zone_max","length_zone_mean","length_zone_median","length_zone_sd")
+    distances=c(TH,n_zones,dist_zone_min,dist_zone_max,dist_zone_mean,dist_zone_median,dist_zone_sd)
+    names(distances)=c("TH","n_zones","dist_zone_min","dist_zone_max","dist_zone_mean","dist_zone_median","dist_zone_sd")
+
     return(list("n_zones"=n_zones,"n_bases"=n_bases,"lengths"=lengths,"distances"=distances,"TH"=TH,"chr"=accumulation$chr,"w"=accumulation$w,"acctype"=accumulation$acctype))
 
 }
