@@ -14,6 +14,10 @@ output:
 bibliography: references.bib
 csl: american-medical-association-no-et-al.csl
 header-includes: \usepackage{float}
+vignette: >
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{TFHAZ}
+  %\usepackage[UTF-8]{inputenc}
 ---
 
 
