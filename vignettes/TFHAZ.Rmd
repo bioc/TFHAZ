@@ -286,7 +286,7 @@ loadings of each principal component;
 * a plot with the variances of the principal components;
 * a plot with the cumulate variances of the principal components;
 * a plot with the loadings of the three principal components.
- 
+
 
 Note that the function *n_zones_PCA* works only if the number of different
 threshold
@@ -351,7 +351,7 @@ The function *high_accumulation_zones* takes in input:
 (e.g., obtained with the \emph{accumulation} function), the accumulation type, a
 chromosome name, and the half-width of the window used for the accumulation
 count.  
-  
+
 The result of the *high_accumulation_zones* function is a list containing:  
 
 * n_zones: an integer containing the number of high accumulation zones obtained;
