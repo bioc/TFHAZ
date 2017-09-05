@@ -5,14 +5,17 @@
 Plots the number of dense zones for each threshold value.
 }
 \description{
-For each accumulation threshold value considered, this function shows the number of dense zones found (e.g., with the \emph{dense_zones} function). It also plots in red color the point of the graph with maximum slope change (maximum second derivative).
+For each accumulation threshold value considered, this function shows the number
+of dense zones found (e.g., with the \emph{dense_zones} function). It also plots
+in red color the point of the graph with maximum slope change (maximum second
+derivative).
 }
 \usage{
 plot_n_zones(zones)
 }
 
 \arguments{
-  \item{zones}{
+\item{zones}{
 a list of seven elements, as the output of the \emph{dense_zones} function.
 }
 }

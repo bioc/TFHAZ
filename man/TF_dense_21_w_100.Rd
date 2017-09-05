@@ -5,12 +5,15 @@
 Contains an output of the dense_zones function.
 }
 \description{
-\emph{TF_dense_21_w_100} is a list of 7 elements (\emph{zones_count}, \emph{bases_count}, \emph{lengths}, \emph{distances}, \emph{acctype}, \emph{chr}, \emph{w}). It is the output of the \emph{dense_zones} function applied to the accumulation vector found with
-w=100, chr="chr21", acctype="TF". \emph{TF_dense_21_w_100} is included in the \emph{data_man} collection.
+\emph{TF_dense_21_w_100} is a list of 7 elements (\emph{zones_count},
+\emph{bases_count}, \emph{lengths}, \emph{distances}, \emph{acctype},
+\emph{chr}, \emph{w}). It is the output of the \emph{dense_zones} function
+applied to the accumulation vector found with w=100, chr="chr21", acctype="TF". 
+\emph{TF_dense_21_w_100} is included in the \emph{data_man} collection.
 }
 \usage{data("data_man")}
 \value{
- None, the function is invoked for its side effect.
+None, the function is invoked for its side effect.
 }
 \format{
 An object of class list.

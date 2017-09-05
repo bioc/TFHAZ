@@ -5,15 +5,19 @@
 Contains an output of the dense_zones function.
 }
 \description{
-\emph{base_dense_21_w_10} is a list of 7 elements (\emph{zones_count}, \emph{bases_count}, \emph{lengths}, \emph{distances}, \emph{acctype}, \emph{chr}, \emph{w}). It is the output of \emph{dense_zones} function (with \emph{threshold_step=21} in order to have
-14 threshold values) applied to the accumulation vector found with w=10, chr="chr21", acctype="base". \emph{base_dense_21_w_10} is included in the \emph{data_man} collection.
+\emph{base_dense_21_w_10} is a list of 7 elements (\emph{zones_count},
+\emph{bases_count}, \emph{lengths}, \emph{distances}, \emph{acctype},
+\emph{chr}, \emph{w}). It is the output of \emph{dense_zones} function (with 
+\emph{threshold_step=21} in order to have 14 threshold values) applied to the 
+accumulation vector found with w=10, chr="chr21", acctype="base". 
+\emph{base_dense_21_w_10} is included in the \emph{data_man} collection.
 }
 \usage{data("data_man")}
 \value{
- None, the function is invoked for its side effect.
+None, the function is invoked for its side effect.
 }
 \format{
- An object of class list.
+An object of class list.
 }
 \examples{
 # loading data
