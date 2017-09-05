@@ -9,7 +9,7 @@ import(GenomicRanges)
 importFrom("grDevices", "dev.off", "png")
 importFrom("graphics", "axis", "barplot", "legend", "mtext", "par","plot",
 "points","abline")
-importFrom("stats", "median", "prcomp", "sd")
+importFrom("stats", "prcomp")
 importFrom("utils", "write.table")
 import(IRanges)
 import(S4Vectors)
