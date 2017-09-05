@@ -197,7 +197,7 @@ TF_dense_21_w_0
 
 
 ```{r, echo=FALSE, fig.align='center', fig.small = TRUE, fig.cap = "*Figure2: Content of the 'bed' file with the coordinates of the seven dense DNA zones found with transcription factor accumulation threshold value equal to 12.*"}
-knitr::include_graphics('./dense_zones_12.png')
+knitr::include_graphics('./dense_zones_12.PNG')
 ```
 
 
@@ -390,7 +390,7 @@ knitr::include_graphics('./high_accumulation_zones_TH_7.3_TF_acc_w_0_chr21.png')
 ```
 
 ```{r echo=FALSE, fig.align='center', fig.small = TRUE, fig.cap = "*Figure 9: Content of the 'bed' file with the coordinates of 31 out of the 93 high accumulation DNA zones found.*"}
-knitr::include_graphics('./HAZ_bed.png')
+knitr::include_graphics('./HAZ_bed.PNG')
 ```
 
 
