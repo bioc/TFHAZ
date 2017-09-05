@@ -1,7 +1,7 @@
 Package: TFHAZ
 Type: Package
 Title: Transcription Factor High Accumulation Zones
-Version: 0.99.5
+Version: 0.99.6
 Author: Alberto Marchesi, Marco Masseroli
 Maintainer: Alberto Marchesi <alberto.march91@gmail.com>
 Description: It finds trascription factor (TF) high accumulation DNA zones, 
@@ -22,6 +22,6 @@ Encoding: UTF-8
 Imports: GenomicRanges, S4Vectors, grDevices, graphics, stats, utils, IRanges
 biocViews: Software, BiologicalQuestion, Transcription, ChIPSeq, Coverage
 LazyData: true
-Depends: R(>= 3.3)
+Depends: R(>= 3.4)
 Suggests: BiocStyle, knitr, rmarkdown
 VignetteBuilder: knitr
