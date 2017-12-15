@@ -16,7 +16,7 @@ function is the same for all the three accumulation types, while the threshold
 values can be different.
 }
 \usage{
-n_zones_PCA(TF_zones, region_zones, base_zones)
+n_zones_PCA(TF_zones, region_zones, base_zones, chr = NULL)
 }
 
 \arguments{
@@ -35,6 +35,11 @@ a list with the results of the \emph{dense_zones} function using the base
 accumulation method and varying the thresholds on the considered accumulation
 values.
 }
+\item{chr}{
+optional argument, needed if the input was found with chr = "all";
+a string or a vector containing strings with the name of the chromosome
+(e.g., "chr1")
+}
 }
 \value{
 A list with a summary containing the standard deviation on each principal
@@ -51,10 +56,10 @@ components.
 \examples{
 # loading data
 data("data_man")
-# TF_dense_21_w_10, reg_dense_21_w_10, and base_dense_21_w_10 are in the
+# TF_dense_w_10, reg_dense_w_10, and base_dense_w_10 are in the
 #data_man collection of datasets
 # PCA
-n_zones_PCA(TF_dense_21_w_10, reg_dense_21_w_10, base_dense_21_w_10)
+n_zones_PCA(TF_dense_w_10, reg_dense_w_10, base_dense_w_10)
 }
 
 

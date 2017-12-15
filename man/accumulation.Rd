@@ -7,7 +7,7 @@ chromosome base.
 \description{
 From a dataset with transcription factor (TF) binding regions, this function
 creates a vector (\emph{accvector}) in which, for each chromosome base, the
-accumulation of the TFs present in the input dataset is calculated. 
+accumulation of the TFs present in the input dataset is calculated.
 Three types of accumulation are considered: \emph{TF accumulation}, \emph{region
 accumulation} and \emph{base accumulation}.
 TF accumulation: for each base, it is the number of different TFs present in the
@@ -40,7 +40,8 @@ a GRanges object containing coordinates of TF binding regions and their TF name.
 a string with the name of the accumulation type: "TF", "region", "base".
 }
 \item{chr}{
-a string with the name of the chromosome (e.g., "chr1").
+a string with the name of the chromosome (e.g., "chr1"). With chr = "all" all
+the chromosomes in the input GRanges object are considered.
 }
 \item{w}{
 an integer, half-width of the window that defines the neighborhood of each base.
@@ -49,8 +50,8 @@ an integer, half-width of the window that defines the neighborhood of each base.
 
 \value{
 A list of four elements:
-\item{accvector}{a Rle object containing the accumulation for each base of
-the selected chromosome.}
+\item{accvector}{a Rle (or SimpleRleList if chr = "all") object containing the
+accumulation for each base of the selected chromosome.}
 \item{acctype}{a string with the accumulation type used.}
 \item{chr}{a string with the chromosome name associated with the accumulation
 vector.}

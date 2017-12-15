@@ -1,7 +1,7 @@
 Package: TFHAZ
 Type: Package
 Title: Transcription Factor High Accumulation Zones
-Version: 1.1.0
+Version: 1.1.1
 Author: Alberto Marchesi, Marco Masseroli
 Maintainer: Alberto Marchesi <alberto.march91@gmail.com>
 Description: It finds trascription factor (TF) high accumulation DNA zones, 
@@ -12,14 +12,13 @@ Description: It finds trascription factor (TF) high accumulation DNA zones,
     (TF, region and base accumulation) are available, together with the
     possibility of considering, in the single base accumulation computing, 
     the TFs present not only in that single base, but also in its neighborhood,
-    within a window of a given width. Then, high accumulation DNA zones are
-    defined as regions of the genome formed by contiguous bases with
-    accumulation equal or higher than a given threshold. In addition, some
-    functions are provided in order to analyze, visualize and compare results
-    obtained with different input parameters.
+    within a window of a given width. Two different methods for the search of TF
+    high accumulation DNA zones, called "binding regions" and "overlaps", are 
+    available. In addition, some functions are provided in order to analyze, 
+    visualize and compare results obtained with different input parameters.
 License: Artistic-2.0
 Encoding: UTF-8
-Imports: GenomicRanges, S4Vectors, grDevices, graphics, stats, utils, IRanges
+Imports: GenomicRanges, S4Vectors, grDevices, graphics, stats, utils, IRanges, methods
 biocViews: Software, BiologicalQuestion, Transcription, ChIPSeq, Coverage
 LazyData: true
 Depends: R(>= 3.4)

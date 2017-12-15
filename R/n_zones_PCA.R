@@ -1,9 +1,13 @@
 ## The function performs the Principal Component Analysis (PCA) of the number of
 ## dense zones obtained by varying the threshold on accumulation values obtained
 ## with the three methods of accumulation (TF, region, base).
-## Input: 3 lists with the results of the dense_zones function using the TF,
-## region and base accumulation method (in this order) and varying the
-## thresholds on the considered accumulation values.
+## Input:
+##    lists with the results of the dense_zones function using the TF,
+##    region and base accumulation method (in this order) and varying the
+##    thresholds on the considered accumulation values.
+##    chr: optional argument, needed if the input is found with chr = "all";
+##    a string or a vector containing strings with the name of the chromosome
+##    (e.g., "chr1")
 ## Output: A list with a summary containing the standard deviation on each
 ## principal component, the proportion of variance explained by each principal
 ## component, the cumulative proportion of variance described by each principal
@@ -16,7 +20,7 @@
 ## coefficients the loadings of the first principal component for the three
 ## accumulation types.
 
-n_zones_PCA <- function(TF_zones, region_zones, base_zones) {
+n_zones_PCA <- function(TF_zones, region_zones, base_zones, chr = NULL) {
     if (!is.list(TF_zones))
         stop("'TF_zones' must be an object of type 'list'.")
     if (!is.list(region_zones))
@@ -29,24 +33,40 @@ n_zones_PCA <- function(TF_zones, region_zones, base_zones) {
     stop("region_zones must contain dense zones from region accumulation type.")
     if (base_zones$acctype != "base")
     stop("base_zones must contain dense zones from base accumulation type.")
-    if (length(TF_zones$zones_count$n_zones) !=
-        length(region_zones$zones_count$n_zones) ||
-        length(TF_zones$zones_count$n_zones) !=
-        length(base_zones$zones_count$n_zones) ||
-        length(region_zones$zones$n_zones) != length(base_zones$zones$n_zones))
+
+    if (TF_zones$chr != "all" & TF_zones$chr == region_zones$chr &
+        TF_zones$chr == base_zones$chr) {
+        chr <- TF_zones$chr
+    }
+
+    if (length(eval(parse(text = paste("TF_zones$zones_count$", chr,
+                                    "$n_zones", sep = "")))) !=
+        length(eval(parse(text = paste("region_zones$zones_count$", chr,
+                                    "$n_zones", sep = "")))) ||
+        length(eval(parse(text = paste("TF_zones$zones_count$", chr,
+                                    "$n_zones", sep = "")))) !=
+        length(eval(parse(text = paste("base_zones$zones_count$", chr,
+                                    "$n_zones", sep = "")))) ||
+        length(eval(parse(text = paste("region_zones$zones_count$", chr,
+                                    "$n_zones", sep = "")))) !=
+        length(eval(parse(text = paste("base_zones$zones_count$", chr,
+                                    "$n_zones", sep = "")))))
         stop("The lengths of the three input dataframe are different,
             comparison not possible")
 
     ## dataframe with the number of zones for the three inputs
-    n_zones <- data.frame(TF_zones$zones_count$n_zones,
-        region_zones$zones_count$n_zones, base_zones$zones_count$n_zones)
+    n_zones <- data.frame(eval(parse(text = paste("TF_zones$zones_count$",
+                        chr,"$n_zones", sep = ""))),
+                        eval(parse(text = paste("region_zones$zones_count$",
+                        chr,"$n_zones", sep = ""))),
+                        eval(parse(text = paste("base_zones$zones_count$",
+                        chr,"$n_zones", sep = ""))))
     ## scaled values of n_zones
     zone <- data.frame(scale(n_zones))
-
+    names(zone)=c("TF_zones", "region_zones", "base_zones")
     ## PCA
     pca <- prcomp(zone)
-    summary(pca)
-    pca$rotation[, 1:2]  # loadings
+
     ## barplot with variances
     barplot(pca$sdev^2, main = "Variances of the principal components",
         ylab = "Variances", names.arg = c("Comp1", "Comp2", "Comp3"))
@@ -66,6 +86,7 @@ n_zones_PCA <- function(TF_zones, region_zones, base_zones) {
         "base"), ylab = "Comp3")
     mtext("Loadings of the principal components", outer = TRUE)
     return(list(summary = summary(pca), loadings = pca$rotation))
-}
+    }
+
 
 

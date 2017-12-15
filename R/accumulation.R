@@ -5,12 +5,13 @@
 ## and their TF name.
 ## acctype: a string with the name of the accumulation type: "TF",
 ## "region", "base".
-## chr: a string with the name of the chromosome (e.g., "chr1").
+## chr: a string with the name of the chromosome (e.g., "chr1"). With chr="all"
+## all the chromosomes in the input GRanges object are considered.
 ## w: an integer, half-width of the window that defines the neighborhood
 ## of each base.
 ## output: A list of four elements.
-## accvector: a Rle object containing the accumulation for each base of
-## the selected chromosome.
+## accvector: a Rle (or SimpleRleList if chr = "all") object containing the
+## accumulation for each base of the selected chromosome.
 ## acctype: a string with the accumulation type used.
 ## chr: a string with the chromosome name associated with the accumulation
 ## vector.
@@ -29,7 +30,12 @@ accumulation <- function(data, acctype = c("TF", "region", "base"), chr, w) {
     if (w < 0)
         stop("'w' must be >= 0.")
     # dataset with only the selected chromosome
-    chrom <- data[seqnames(data) == chr]
+    if (chr == "all") {
+        chrom <- data
+        }
+    else {
+        chrom <- data[seqnames(data) == chr]
+        }
     acctype <- match.arg(acctype)
 
     if (acctype == "TF") {
@@ -41,8 +47,7 @@ accumulation <- function(data, acctype = c("TF", "region", "base"), chr, w) {
         for (k in seq_along(tf)) {
 
             # dataset for a single TF and the selected chromosome
-            chrom_tf <- data[seqnames(data) == chr & elementMetadata(data)[, 1]
-                == tf[k]]
+            chrom_tf <- chrom[elementMetadata(chrom)[, 1] == tf[k]]
             # ranges expansion
             start(chrom_tf) <- pmax(1, start(chrom_tf) - w)
             end(chrom_tf) <- end(chrom_tf) + w
@@ -56,7 +61,8 @@ accumulation <- function(data, acctype = c("TF", "region", "base"), chr, w) {
         }
         # sum of all different TFs
         acc <- Reduce(`+`, acc_tf)
-        acc <- eval(parse(text = paste("acc$", chr, sep = "")))
+        if (chr != "all") {
+        acc <- eval(parse(text = paste("acc$", chr, sep = ""))) }
         return(list(accvector = acc, chr = chr, w = w, acctype = acctype))
     }
 
@@ -66,8 +72,9 @@ accumulation <- function(data, acctype = c("TF", "region", "base"), chr, w) {
         start(chrom) <- pmax(1, start(chrom) - w)
         end(chrom) <- end(chrom) + w
         # calculating the coverage
-        v_r <- coverage(chrom, width = max(end(chrom)))
-        acc <- eval(parse(text = paste("v_r$", chr, sep = "")))
+        acc <- coverage(chrom, width = max(end(chrom)))
+        if (chr != "all") {
+        acc <- eval(parse(text = paste("acc$", chr, sep = ""))) }
         return(list(accvector = acc, chr = chr, w = w, acctype = acctype))
     }
 
@@ -75,11 +82,18 @@ accumulation <- function(data, acctype = c("TF", "region", "base"), chr, w) {
         # base accumulation
         # calculating the coverage
         v_b <- coverage(chrom, width = max(end(chrom)))
-        v_b <- eval(parse(text = paste("v_b$", chr, sep = "")))
+
+        #v_b <- eval(parse(text = paste("v_b$", chr, sep = "")))
         # calculating the sum of the bases belonging to the neighborhood
-        v_b_1 <- append(v_b, rep(0, w))
-        v_b_2 <- append(rev(v_b), rep(0, w))
-        acc <- runsum(v_b_1, w + 1) + rev(runsum(v_b_2, w + 1)) - v_b
+        v_b_1 <- lapply(v_b, append, values = rep(0, w))
+        v_b_2 <- lapply(lapply(v_b,rev),append, values=rep(0, w))
+        rs1 <- lapply(v_b_1, runsum, k = w + 1)
+        rs2 <- lapply(lapply(v_b_2, runsum, k = w + 1), rev)
+        acc_1 <- Map("+", rs1, rs2)
+        acc <- Map("-", acc_1, v_b)
+        acc <- as(acc,"SimpleRleList")
+        if (chr != "all") {
+            acc <- eval(parse(text = paste("acc$", chr, sep = ""))) }
         return(list(accvector = acc, chr = chr, w = w, acctype = acctype))
     }
 
