@@ -21,10 +21,10 @@ the considered threshold. The threshold value is found considering two methods.
 The \emph{std} method considers all and only the bases of the accumulation
 vector (\emph{accvector}) with values higher than zero, and the threshold is
 found with the following formula:
-\emph{TH = mean(accvector) + 2*std(accvector)}. The \emph{top_perc} method
-considers the accumulation regions and selects those in the top x percentage,
-with x chosen by the user through the \emph{perc} argument. The function finds
-also the number of high
+\emph{TH = mean(accvector) + k*std(accvector)}. The \emph{top_perc} method
+considers the accumulation regions and selects those in the top k percentage.
+In both the cases, the k is chosen by the user through the 
+\emph{k} argument. The function finds also the number of high
 accumulation zones, the number of total bases belonging to these zones, the
 minimum, maximum, mean, median and standard deviation of these zone
 lengths and of the distances between adjacent high accumulation zones. In the
@@ -40,7 +40,7 @@ accumulation zones (with red boxes). The plot can be saved in a ".png" file.
 }
 \usage{
 high_accumulation_zones(accumulation, method = c("overlaps", "binding_regions"),
-data, threshold = c("std","top_perc"), perc, writeBed = FALSE, plotZones =
+data, threshold = c("std","top_perc"), k, writeBed = FALSE, plotZones =
 FALSE)
 }
 
@@ -64,14 +64,15 @@ It is needed in the case of \emph{binding regions} method.
 a string with the name of the method used to find the threshold value:
 "std" or "top_perc".
 }
-\item{perc}{
-an integer with the percentage value to be used in order to find the threshold
-with the \emph{top_perc} method.
+\item{k}{
+an integer with the percentage (with the \emph{top_perc} method) or the number 
+of std deviations (with the \emph{std} method) to be used in order to find 
+the threshold.
 }
 \item{writeBed}{
 When set to TRUE, for each threshold value a ".bed"
-file with the chromosome and genomic coordinates of the dense zones found is
-created.
+file with the chromosome, genomic coordinates and accumulation values of the 
+found dense zones is created.
 }
 \item{plotZones}{
 When set to TRUE, and the "accumulation" in input is calculated for a single

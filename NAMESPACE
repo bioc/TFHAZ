@@ -8,6 +8,7 @@ export(high_accumulation_zones)
 import(GenomicRanges)
 import(S4Vectors)
 import(IRanges)
+importFrom("ORFik", "reduceKeepAttr")
 importFrom("grDevices", "dev.off", "png")
 importFrom("graphics", "axis", "barplot", "legend", "mtext", "par","plot",
 "points","abline")

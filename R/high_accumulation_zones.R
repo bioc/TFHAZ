@@ -13,8 +13,9 @@
 ##    their TF name. It is needed in the case of "binding regions" method
 ##    threshold: a string with the name of the method used to find the threshold
 ##    value: "std" or "top_perc".
-##    perc: an integer with the value to be used in order to find the threshold
-##    with the "top_perc" method.
+##    k: an integer with the percentage (with the top_perc method) or the
+##    number of std deviations (with the std method) to be used in order to 
+##    find the threshold.
 ## output: A list of nine elements:
 ##    zones: a GRanges object containing the coordinates of the high
 ##    accumulation zones.
@@ -34,16 +35,16 @@
 ##    accumulation vector used.
 ##    w: an integer with half-width of the window used to calculate the
 ##    accumulation vector.
-## Furthermore, a ".bed" file with the chromosome and genomic coordinates of the
-## accumulation zones found and a ".png" file with the plot of the TFHAZ found
-## along the cromosome (only if the "accumulation" in input is calculated for a
-## single chromosome) can be created.
+## Furthermore, a ".bed" file with the chromosome, genomic coordinates and 
+## accumulation values of the found accumulation zones and a ".png" file with 
+## the plot of the TFHAZ found along the chromosome (only if the "accumulation" 
+## in input is calculated for a single chromosome) can be created.
 
 
 
 high_accumulation_zones <- function(accumulation, method = c("overlaps",
                                     "binding_regions"), data, threshold =
-                                    c("std", "top_perc"), perc, writeBed =
+                                    c("std", "top_perc"), k, writeBed =
                                         FALSE, plotZones = FALSE)
         {
 
@@ -98,6 +99,7 @@ high_accumulation_zones <- function(accumulation, method = c("overlaps",
             stop("'perc' must be >= 0 and <= 100.")
         n_regions <- length(acc_regions)
         ul <- unique(score(acc_regions))
+        max_index <- max(ul)
         ul <- sort(ul,decreasing = FALSE)
         up_perc <- n_regions * (1 - (perc * 0.01))
         sum_ACC_count=vector()
@@ -112,18 +114,28 @@ high_accumulation_zones <- function(accumulation, method = c("overlaps",
             }
         }
         TH <- ul[which(sum_ACC_count > up_perc)[1]]
+        
     }
 
     if (threshold == "std") {
-        acc <- score(acc_regions) * width(acc_regions)
-        mean_acc <- sum(acc) / sum(width(acc_regions))
-        std_reg = width(acc_regions) * (score(acc_regions) - mean_acc)^2
-        std_acc <- sqrt(sum(std_reg) / (sum(width(acc_regions)) - 1))
-        TH <- mean_acc + 2 * std_acc
+      if(missing(perc))
+        perc <- 2
+      acc <- score(acc_regions) * width(acc_regions)
+      mean_acc <- sum(acc) / sum(width(acc_regions))
+      std_reg = width(acc_regions) * (score(acc_regions) - mean_acc)^2
+      std_acc <- sqrt(sum(std_reg) / (sum(width(acc_regions)) - 1))
+      TH <- ceiling(mean_acc + perc * std_acc)
+      ul <- unique(score(acc_regions))
+      max_index <- max(ul)
     }
 
     ## finding high accumulation zones
-    zones <- reduce(acc_regions[score(acc_regions) >= TH])
+    zones_old <- reduce(acc_regions[score(acc_regions) >= TH])
+    acc_regions <- acc_regions
+    zones <- reduceKeepAttr(acc_regions[score(acc_regions) >= TH], 
+                             keep.names = TRUE, with.revmap = TRUE)
+    indexes <- as.numeric(zones@elementMetadata@listData[["revmap"]]@partitioning@end)
+    acc_val <- score(acc_regions)[indexes]    
     ## finding the number of bases belonging to the zones
     n_bases <- sum(width(zones))
     ## finding the number of zones
@@ -148,14 +160,14 @@ high_accumulation_zones <- function(accumulation, method = c("overlaps",
             ("# of ", accumulation$acctype, "s", sep = ""))
         points(bases, rep(0, length(bases)), col = "red", pch = 15)
         abline(h = TH, col = "red")
-        legend("topleft", legend = c("threshold", "high accumulation zones"),
-                col = "red", pch = c(NA, 15), lty = c(1, NA))
+        legend("topleft", legend = c("threshold", "HOT\nzones"),
+                col = "red", pch = c(NA, 15), lty = c(1, NA), bty='n')
         dev.off()
     }
 
     if (writeBed == TRUE) {
     ## writing on files chromosome and positions of starting and ending points
-    write.table(data.frame(seqnames(zones), start(zones) - 1, end(zones)),
+    write.table(data.frame(seqnames(zones), start(zones) - 1, end(zones), acc_val),
                 file = paste(accumulation$acctype, "_acc_w_", accumulation$w,
                 "_", accumulation$chr, "_dense_zones_th_", round(TH, digits = 1)
                 , ".bed", sep = ""), row.names = FALSE, col.names = FALSE,
@@ -198,6 +210,6 @@ high_accumulation_zones <- function(accumulation, method = c("overlaps",
 
     return(list(zones = zones, n_zones = n_zones, n_bases = n_bases, lengths =
                 lengths, distances = distances, TH = TH, chr = accumulation$chr,
-                w = accumulation$w, acctype = accumulation$acctype))
+                w = accumulation$w, max_accumulation_index = max_index, acctype = accumulation$acctype))
 
 }
