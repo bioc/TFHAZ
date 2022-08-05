@@ -44,7 +44,7 @@
 
 high_accumulation_zones <- function(accumulation, method = c("overlaps",
                                     "binding_regions"), data, threshold =
-                                    c("std", "top_perc"), k, writeBed =
+                                    c("std", "top_perc"), k = 2, writeBed =
                                         FALSE, plotZones = FALSE)
         {
 

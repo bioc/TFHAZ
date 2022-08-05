@@ -402,8 +402,9 @@ count;
 It is needed in the case of *binding regions* method;
 * a string with the name of the method used to find the threshold value:
 "std" or "top_perc";
-* an integer with the percentage value to be used in order to find the threshold
-with the *top_perc* method;
+* an integer k (by defeault equals to 2) with the percentage (with the 
+*top_perc* method) or the number of std deviations (with the *std* method) to 
+be used in order to find the threshold.
 * a logical argument, writeBed. When set to TRUE, for each threshold value a 
 ".bed" file with the chromosome and genomic coordinates of the dense zones found
 is created.
