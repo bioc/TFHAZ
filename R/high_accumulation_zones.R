@@ -44,7 +44,7 @@
 
 high_accumulation_zones <- function(accumulation, method = c("overlaps",
                                     "binding_regions"), data, threshold =
-                                    c("std", "top_perc"), k, writeBed =
+                                    c("std", "top_perc"), k = 2, writeBed =
                                         FALSE, plotZones = FALSE)
         {
 
@@ -91,17 +91,17 @@ high_accumulation_zones <- function(accumulation, method = c("overlaps",
 
     ## finding the threshold
     if (threshold == "top_perc") {
-        if(missing(perc))
-            stop("argument perc is missing")
-        if (!is.numeric(perc))
-            stop("'perc' must be an object of type 'numeric'.")
-        if (perc < 0 || perc >= 100)
-            stop("'perc' must be >= 0 and <= 100.")
+        if(missing(k))
+            stop("argument k is missing")
+        if (!is.numeric(k))
+            stop("'k' must be an object of type 'numeric'.")
+        if (k < 0 || k >= 100)
+            stop("'k' must be >= 0 and <= 100.")
         n_regions <- length(acc_regions)
         ul <- unique(score(acc_regions))
         max_index <- max(ul)
         ul <- sort(ul,decreasing = FALSE)
-        up_perc <- n_regions * (1 - (perc * 0.01))
+        up_perc <- n_regions * (1 - (k * 0.01))
         sum_ACC_count=vector()
         ACC_count=vector()
         for(i in seq_along(ul)){
@@ -118,13 +118,13 @@ high_accumulation_zones <- function(accumulation, method = c("overlaps",
     }
 
     if (threshold == "std") {
-      if(missing(perc))
-        perc <- 2
+      if(missing(k))
+        k <- 2
       acc <- score(acc_regions) * width(acc_regions)
       mean_acc <- sum(acc) / sum(width(acc_regions))
       std_reg = width(acc_regions) * (score(acc_regions) - mean_acc)^2
       std_acc <- sqrt(sum(std_reg) / (sum(width(acc_regions)) - 1))
-      TH <- ceiling(mean_acc + perc * std_acc)
+      TH <- ceiling(mean_acc + k * std_acc)
       ul <- unique(score(acc_regions))
       max_index <- max(ul)
     }
