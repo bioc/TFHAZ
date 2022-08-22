@@ -436,7 +436,7 @@ vector.
 ```{r}
 # find high accumulation DNA zones
 TF_acc_21_w_0 <- accumulation(Ishikawa, "TF", "chr21", 0)
-TFHAZ_21_w_0 <- high_accumulation_zones(TF_acc_21_w_0, method = "overlaps",
+TFHAZ_21_w_0 <- high_accumulation_zones( TF_acc_21_w_0, method = "overlaps",
 threshold = "std")
 TFHAZ_21_w_0
 ```
