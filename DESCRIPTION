@@ -1,7 +1,7 @@
 Package: TFHAZ
 Type: Package
 Title: Transcription Factor High Accumulation Zones
-Version: 1.19.3
+Version: 1.20.0
 Author: Alberto Marchesi, Silvia Cascianelli, Marco Masseroli
 Maintainer: Gaia Ceddia <gaia.ceddia@polimi.it>
 Description: It finds trascription factor (TF) high accumulation DNA zones, 
